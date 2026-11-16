@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Short Vocabulary Test: Appearance, Personality &amp; Feelings</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#1d2433;--mute:#5b6478;--line:#d9deea;--acc:#2f5bea;--ok:#177a3c;--okbg:#e3f5e9;--no:#b3261e;--nobg:#fbe7e5;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151d;--card:#1b2030;--ink:#eef1f8;--mute:#a3acc0;--line:#323a52;--acc:#7b9bff;--ok:#6fd392;--okbg:#14301f;--no:#ff8f86;--nobg:#3a1a18;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12151d;--card:#1b2030;--ink:#eef1f8;--mute:#a3acc0;--line:#323a52;--acc:#7b9bff;--ok:#6fd392;--okbg:#14301f;--no:#ff8f86;--nobg:#3a1a18;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:1.5rem;margin:.4em 0 .2em}
+.intro{color:var(--mute);margin:0 0 12px}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 0;z-index:5;display:flex;gap:12px;align-items:center;font-size:.9rem;color:var(--mute)}
+.track{flex:1;height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.fill{height:100%;width:0;background:var(--acc);transition:width .2s}
+.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0}
+.q.ok{border-color:var(--ok);background:var(--okbg)}.q.no{border-color:var(--no);background:var(--nobg)}
+.q h2{font-size:1rem;margin:0 0 4px}.q .tag{font-size:.75rem;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
+.q p{margin:.3em 0 .6em}
+label.o{display:flex;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:8px;margin:6px 0;cursor:pointer;background:var(--card)}
+label.o:hover{border-color:var(--acc)}
+select{font:inherit;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);max-width:100%}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}.row span{flex:1 1 220px}
+button{font:inherit;padding:10px 20px;border-radius:10px;border:0;background:var(--acc);color:#fff;cursor:pointer;font-weight:600}
+button.sec{background:transparent;color:var(--acc);border:1px solid var(--acc)}
+.fb{margin-top:8px;font-size:.92rem}.fb b{display:block}
+.res{background:var(--card);border:2px solid var(--acc);border-radius:12px;padding:16px;margin:12px 0;text-align:center}
+.res .big{font-size:2rem;font-weight:700}
+.msg{color:var(--no);min-height:1.4em}
+input:disabled,select:disabled{cursor:default}
+</style>
+</head>
+<body>
+<main>
+<h1>Short Vocabulary Test</h1>
+<p class="intro">Topic: appearance, personality and feelings. Answer all 15 questions. You can change your answers as often as you like. Nothing is marked as right or wrong until you click <b>Submit</b>.</p>
+<div class="bar"><span id="cnt">0 / 15 answered</span><div class="track"><div class="fill" id="fill"></div></div></div>
+<div id="qs"></div>
+<p class="msg" id="msg" role="status"></p>
+<div id="res"></div>
+<p><button id="sub">Submit answers</button> <button class="sec" id="again" hidden>Try again</button></p>
+</main>
+<script>
+const Q=[
+{t:"mc",q:"Which word describes a person who prefers to be alone and finds big social events tiring?",o:["introvert","outgoing","fun-loving","messy"],a:"introvert"},
+{t:"mc",q:"Jonas often forgets his promises and arrives late. You can't count on him. He is…",o:["hard-working","unreliable","understanding","sporty"],a:"unreliable"},
+{t:"mc",q:"Which word fits best? “Mia studies every evening and always finishes her tasks.” She is…",o:["lazy","reserved","hard-working","depressive"],a:"hard-working"},
+{t:"multi",q:"Select ALL words that describe positive personality traits.",o:["hard-working","lazy","understanding","unreliable","fun-loving","envious"],a:["hard-working","understanding","fun-loving"]},
+{t:"gap",q:"My brother never tidies up. His room and his desk are always ______.",o:["messy","strict","reserved","bald"],a:"messy"},
+{t:"match",q:"Match each description with the correct personality word.",items:[["He sets clear rules and expects everyone to follow them.","strict"],["Nothing stresses her out. She stays calm in every situation.","relaxed"],["He doesn't talk much about his feelings and keeps people at a distance.","reserved"]],pool:["strict","relaxed","reserved","outgoing"]},
+{t:"tf",q:"A “sporty” person enjoys physical activity and exercise.",a:true},
+{t:"mc",q:"Which word describes a man who has no hair on his head?",o:["curly","bald","spiky","dyed"],a:"bald"},
+{t:"mc",q:"Lena wishes she had her friend's new phone and finds it hard to be happy for her. She feels…",o:["relieved","proud","envious","delighted"],a:"envious"},
+{t:"gap",q:"When Hannah heard she had won the competition, she was absolutely ______.",o:["suspicious","delighted","disappointed","ashamed"],a:"delighted"},
+{t:"mc",q:"Tom heard strange noises in the empty house at midnight. He was ______.",o:["terrified","proud","relaxed","excited"],a:"terrified"},
+{t:"mc",q:"Which word does NOT describe a negative feeling?",o:["upset","cross","relieved","disappointed"],a:"relieved"},
+{t:"match",q:"Match each situation with the feeling it probably causes.",items:[["Your best friend didn't invite you to her birthday party.","upset"],["Your exam is tomorrow and you haven't studied yet.","anxious"],["You have just won first prize in a school competition.","proud"]],pool:["proud","anxious","upset","relieved"]},
+{t:"tf",q:"If you are “suspicious” of someone, you trust that person completely.",a:false},
+{t:"gap",q:"Sam is really ______. He talks to everyone at parties and loves meeting new people.",o:["outgoing","reserved","lazy","thin"],a:"outgoing"}
+];
+const TL={mc:"Multiple choice",multi:"Select all that apply",gap:"Fill the gap",match:"Matching",tf:"True or false"};
+const qs=document.getElementById("qs");let done=false;
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+Q.forEach((x,i)=>{
+ let h=`<div class="q" id="q${i}"><span class="tag">Question ${i+1} · ${TL[x.t]}</span><p><b>${esc(x.q)}</b></p>`;
+ if(x.t==="mc"||x.t==="gap")h+=x.o.map(o=>`<label class="o"><input type="radio" name="q${i}" value="${esc(o)}"> ${esc(o)}</label>`).join("");
+ if(x.t==="multi")h+=x.o.map(o=>`<label class="o"><input type="checkbox" name="q${i}" value="${esc(o)}"> ${esc(o)}</label>`).join("");
+ if(x.t==="tf")h+=[["true","True"],["false","False"]].map(([v,l])=>`<label class="o"><input type="radio" name="q${i}" value="${v}"> ${l}</label>`).join("");
+ if(x.t==="match")h+=x.items.map((it,j)=>`<div class="row"><span>${esc(it[0])}</span><select data-q="${i}" data-j="${j}"><option value="">Choose…</option>${x.pool.map(p=>`<option>${esc(p)}</option>`).join("")}</select></div>`).join("");
+ h+=`<div class="fb" hidden></div></div>`;qs.insertAdjacentHTML("beforeend",h);
+});
+function get(i){const x=Q[i],box=document.getElementById("q"+i);
+ if(x.t==="mc"||x.t==="gap"||x.t==="tf"){const c=box.querySelector("input:checked");return c?c.value:null}
+ if(x.t==="multi"){const c=[...box.querySelectorAll("input:checked")].map(e=>e.value);return c.length?c:null}
+ const v=[...box.querySelectorAll("select")].map(s=>s.value);return v.every(Boolean)?v:(v.some(Boolean)?"partial":null)}
+function update(){let n=0;Q.forEach((_,i)=>{const g=get(i);if(g&&g!=="partial")n++});
+ document.getElementById("cnt").textContent=n+" / 15 answered";document.getElementById("fill").style.width=(n/15*100)+"%";return n}
+document.addEventListener("change",()=>{if(!done){update();document.getElementById("msg").textContent=""}});
+function score(i){const x=Q[i],g=get(i);if(!g||g==="partial")return{s:0,fb:"No complete answer given."+corr(i)};
+ let s=0;
+ if(x.t==="mc"||x.t==="gap")s=g===x.a?1:0;
+ if(x.t==="tf")s=(g==="true")===x.a?1:0;
+ if(x.t==="multi")s=(g.length===x.a.length&&x.a.every(a=>g.includes(a)))?1:0;
+ if(x.t==="match")s=x.items.filter((it,j)=>g[j]===it[1]).length/x.items.length;
+ return{s,fb:s===1?"Correct!":(s>0?"Partly correct." :"Not correct.")+corr(i)}}
+function corr(i){const x=Q[i];let a=x.t==="tf"?(x.a?"True":"False"):x.t==="multi"?x.a.join(", "):x.t==="match"?x.items.map(it=>"“"+it[0].split(" ").slice(0,4).join(" ")+"…” → "+it[1]).join("; "):x.a;return `<b>Correct answer:</b> ${esc(a)}`}
+document.getElementById("sub").onclick=()=>{
+ if(done)return;const n=update();
+ if(n<15&&!confirm((15-n)+" question(s) are not fully answered. Submit anyway?"))return;
+ done=true;let tot=0;
+ Q.forEach((x,i)=>{const r=score(i),b=document.getElementById("q"+i);tot+=r.s;
+  b.classList.add(r.s===1?"ok":"no");const f=b.querySelector(".fb");f.hidden=false;f.innerHTML=(r.s===1?"✔ ":"✘ ")+r.fb;
+  b.querySelectorAll("input,select").forEach(e=>e.disabled=true)});
+ const t=Math.round(tot*100)/100;
+ document.getElementById("res").innerHTML=`<div class="res"><div>Your result</div><div class="big">${t} / 15 points</div><div>${Math.round(t/15*100)}%</div></div>`;
+ document.getElementById("sub").hidden=true;document.getElementById("again").hidden=false;
+ document.getElementById("res").scrollIntoView({behavior:"smooth"})};
+document.getElementById("again").onclick=()=>location.reload();
+</script>
+</body>
+</html>
